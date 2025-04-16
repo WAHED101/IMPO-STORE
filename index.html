@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPO STORE</title>
+    <link rel="icon" type="image/png" href="IMG/web-icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- Your admin panel content -->
+  <div id="admin-content">
+      <h1>Welcome to Admin Panel</h1>
+      <button id="logoutBtn">Logout</button>
+      <!-- Rest of your admin panel content -->
+  </div>
+
+  <!-- Add Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  
+  <script>
+      // Your Firebase configuration (must match the one in login page)
+      const firebaseConfig = {
+    apiKey: "AIzaSyATm8V-vInYwYR0KPH1Kf06BzjjJ4xeQXU",
+    authDomain: "impo-b098d.firebaseapp.com",
+    databaseURL: "https://impo-b098d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "impo-b098d",
+    storageBucket: "impo-b098d.firebasestorage.app",
+    messagingSenderId: "498933533524",
+    appId: "1:498933533524:web:aabb9888f4793025a0d6c1",
+    measurementId: "G-7DZ2PNKY8N"
+  };
+
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // Check authentication state
+      auth.onAuthStateChanged((user) => {
+          if (!user) {
+              // User is not logged in, redirect to login page
+              window.location.href = 'login.html'; // or whatever your login page is called
+          }
+          // else: user is logged in, show the page normally
+      });
+
+      // Logout functionality
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+          auth.signOut()
+              .then(() => {
+                  // Sign-out successful, redirect to login page
+                  window.location.href = 'login.html';
+              })
+              .catch((error) => {
+                  console.error('Logout error:', error);
+              });
+      });
+  </script>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">IMPO SMP</a>
+            <div class="nav-links">
+                <a href="#home">home</a>
+                <a href="#vote">Vote</a>
+                <a href="#gems">Gems</a>
+                <a href="#ranks">Ranks</a>
+            </div>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="home-hero">
+    <header class="hero">
+        <div class="container">
+            <h1>IMPO SMP</h1>
+            <p id="server-ip">play.impomc.xyz</p>
+            <button id="copy-ip" class="btn btn-primary">Play</button>
+        </div>
+    </header>
+    <section>
+    
+        <!-- Gems Section -->
+        <section id="gems" class="gems-section">
+            <div class="container">
+                <h2>Gems Packages</h2>
+                <div class="gems-grid"> 
+                    
+                </div>
+            </div>
+        </section>
+
+        <section id="ranks" class="ranks-section">
+            <div class="container">
+                <h2>Server Ranks</h2>
+                <div class="rank-grid">
+                    
+                </div>
+            </div>
+        </section>
+        
+        <!-- Vote Section -->
+        <section id="vote" class="vote-section">
+            <div class="container">
+                <h2>Vote for Our Server</h2>
+                <div class="vote-grid"> 
+                    
+                </div>
+            </div>
+        </section>
+
+
+
+         <!-- Purchase Modal -->
+    <div id="purchaseModal" class="modal">
+      <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h2>Complete Your Purchase</h2>
+          <form id="purchaseForm">
+              <div class="form-group">
+                  <label for="username">Minecraft Username</label>
+                  <input type="text" id="username" name="username" required>
+              </div>
+              
+              <div class="form-group">
+                  <label for="discord">Discord Username</label>
+                  <input type="text" id="discord" name="discord" required placeholder="username#1234">
+              </div>
+              
+              <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="tel" id="phone" name="phone" required placeholder="01XXXXXXXXX">
+              </div>
+              
+              <div class="form-group">
+                  <label>Payment Method</label>
+                  <div class="payment-options">
+                      <label class="payment-option">
+                          <input type="radio" name="payment" value="bkash" checked>
+                          <img src="IMG/pay1.png" alt="Bkash">
+                      </label>
+                      <label class="payment-option">
+                          <input type="radio" name="payment" value="nagad">
+                          <img src="IMG/pay2.png" alt="Nagad">
+                      </label>
+                  </div>
+              </div>
+              
+              <div class="payment-instructions" id="bkash-instructions">
+                  <h3>Bkash Payment Instructions</h3>
+                  <p>1. Go to your Bkash Mobile Menu</p>
+                  <p>2. Select "Send Money"</p>
+                  <p>3. Enter our Bkash Number: <strong>01XXXXXXXXX</strong></p>
+                  <p>4. Enter the amount: <strong id="bkash-amount">৳0</strong></p>
+                  <p>5. Enter your username as reference</p>
+              </div>
+              
+              <div class="payment-instructions" id="nagad-instructions" style="display:none;">
+                  <h3>Nagad Payment Instructions</h3>
+                  <p>1. Go to your Nagad Mobile Menu</p>
+                  <p>2. Select "Send Money"</p>
+                  <p>3. Enter our Nagad Number: <strong>01XXXXXXXXX</strong></p>
+                  <p>4. Enter the amount: <strong id="nagad-amount">৳0</strong></p>
+                  <p>5. Enter your username as reference</p>
+              </div>
+              
+              <input type="hidden" id="item-name" name="item-name">
+              <input type="hidden" id="item-price" name="item-price">
+              
+              <button type="submit" class="btn btn-primary">Confirm Purchase</button>
+          </form>
+      </div>
+  </div>
+  <!-- <div class="rank-card">
+    <img src="IMG/rank1.png" alt="">
+    <h3>Legend</h3>
+    <p class="price">৳29.99</p>
+    <ul>
+        <li>All VIP perks</li>
+        <li>5 Homes</li>
+        <li>Custom nicknames</li>
+        <li>Exclusive cosmetics</li>
+    </ul>
+    <button class="btn btn-secondary purchase-btn">Purchase</button>
+</div>
+</div>
+</div>
+</section> -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>IMPO SMP</h4>
+                    <p>Need help? Join our Discord for support!</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#gems">Gems</a></li>
+                        <li><a href="#ranks">Ranks</a></li>
+                        <li><a href="#vote">Vote</a></li>
+                        <li><a href="admin/login.html">Admin</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a target="_blank" href="https://discord.impomc.xyz/"><i class="fab fa-discord"></i></a>
+                    </div>
+                    <p class="server-ip">play.impomc.xyz</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 IMPO SMP. Not affiliated with Mojang or Microsoft.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+
+
+    <script src="script.js"></script>
+    <script>
+      
+    </script>
+</body>
+</html>

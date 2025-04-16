@@ -1,0 +1,40 @@
+[
+    {
+        "id": "ultra",
+        "name": "Ultra",
+        "image": "IMG/rank2.png",
+        "price": "৳5.99",
+        "features": [
+            "Basic perks",
+            "Colorful chat",
+            "1 Home"
+        ],
+        "popular": false
+    },
+    {
+        "id": "hero",
+        "name": "Hero",
+        "image": "IMG/rank3.png",
+        "price": "৳14.99",
+        "features": [
+            "All Member perks",
+            "3 Homes",
+            "Access to VIP events",
+            "Custom particles"
+        ],
+        "popular": true
+    },
+    {
+        "id": "legend",
+        "name": "Legend",
+        "image": "IMG/rank1.png",
+        "price": "৳29.99",
+        "features": [
+            "All VIP perks",
+            "5 Homes",
+            "Custom nicknames",
+            "Exclusive cosmetics"
+        ],
+        "popular": false
+    }
+]
