@@ -6,12 +6,13 @@
     <title>Admin Panel</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-  
-  <script>
-      // Your Firebase configuration (must match the one in login page)
-      const firebaseConfig = {
+    <!-- Firebase Scripts -->
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+
+<script>
+  // Your Firebase configuration
+  const firebaseConfig = {
     apiKey: "AIzaSyATm8V-vInYwYR0KPH1Kf06BzjjJ4xeQXU",
     authDomain: "impo-b098d.firebaseapp.com",
     databaseURL: "https://impo-b098d-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -22,31 +23,35 @@
     measurementId: "G-7DZ2PNKY8N"
   };
 
-      // Initialize Firebase
-      const app = firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-      // Check authentication state
-      auth.onAuthStateChanged((user) => {
-          if (!user) {
-              // User is not logged in, redirect to login page
-              window.location.href = 'login.html'; // or whatever your login page is called
-          }
-          // else: user is logged in, show the page normally
-      });
+  // Auth state listener
+  auth.onAuthStateChanged((user) => {
+    if (!user) {
+      // Redirect to login if not authenticated
+      window.location.href = 'login.html';
+    }
+  });
 
-      // Logout functionality
-      document.getElementById('logoutBtn').addEventListener('click', () => {
-          auth.signOut()
-              .then(() => {
-                  // Sign-out successful, redirect to login page
-                  window.location.href = 'login.html';
-              })
-              .catch((error) => {
-                  console.error('Logout error:', error);
-              });
+  // Logout button listener
+  window.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        auth.signOut()
+          .then(() => {
+            window.location.href = 'login.html';
+          })
+          .catch((error) => {
+            console.error('Logout error:', error);
+          });
       });
-  </script>
+    }
+  });
+</script>
+
 </head>
 <body>
     <div class="admin-container">
