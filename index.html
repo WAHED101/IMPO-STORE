@@ -17,47 +17,7 @@
   </div>
 
   <!-- Add Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
   
-  <script>
-      // Your Firebase configuration (must match the one in login page)
-      const firebaseConfig = {
-    apiKey: "AIzaSyATm8V-vInYwYR0KPH1Kf06BzjjJ4xeQXU",
-    authDomain: "impo-b098d.firebaseapp.com",
-    databaseURL: "https://impo-b098d-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "impo-b098d",
-    storageBucket: "impo-b098d.firebasestorage.app",
-    messagingSenderId: "498933533524",
-    appId: "1:498933533524:web:aabb9888f4793025a0d6c1",
-    measurementId: "G-7DZ2PNKY8N"
-  };
-
-      // Initialize Firebase
-      const app = firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
-
-      // Check authentication state
-      auth.onAuthStateChanged((user) => {
-          if (!user) {
-              // User is not logged in, redirect to login page
-              window.location.href = 'login.html'; // or whatever your login page is called
-          }
-          // else: user is logged in, show the page normally
-      });
-
-      // Logout functionality
-      document.getElementById('logoutBtn').addEventListener('click', () => {
-          auth.signOut()
-              .then(() => {
-                  // Sign-out successful, redirect to login page
-                  window.location.href = 'login.html';
-              })
-              .catch((error) => {
-                  console.error('Logout error:', error);
-              });
-      });
-  </script>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
