@@ -11,14 +11,29 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #121212;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      font-size: 2rem;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .status-text {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #00ffe1;
+      text-shadow: 2px 2px 10px #00ffe1;
+      animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #00ffe1, 0 0 10px #00ffe1;
+      }
+      to {
+        text-shadow: 0 0 20px #00ffe1, 0 0 30px #00ffe1;
+      }
     }
   </style>
 </head>
 <body>
-  Jubayer and Silent is working
+  <div class="status-text">Jubayer and Silent are working</div>
 </body>
 </html>
