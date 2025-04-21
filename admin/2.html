@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        .nav-link {
+            display: block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-left: 4px solid transparent;
+        }
+        .nav-link.active {
+            background-color: #34495e;
+            border-left: 4px solid #3498db;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        #add-product-form {
+            display: none;
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input, textarea, select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .form-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .category-specific {
+            display: none;
+        }
+        .price-field {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script>
+    // Initialize Firebase with your config
+ 
+    
+   
+
+    // Check authentication state
+    auth.onAuthStateChanged(user => {
+        if (!user) {
+            // User is not logged in, redirect to login page
+            window.location.href = 'login.html';
+        }
+        // If user is logged in, continue loading the page
+    });
+
+    // Optional: Add logout functionality
+    function logout() {
+        auth.signOut().then(() => {
+            window.location.href = 'login.html';
+        });
+    }
+</script>
+    <div class="container">
+        <div class="content">
+            <button id="add-product-btn">Add New Product</button>
+            
+            <div id="add-product-form">
+                <form id="minecraft-product-form">
+                    <div>
+                        <label for="product-category">Category:</label>
+                        <select id="product-category" required>
+                            <option value="">Select a category</option>
+                            <option value="ranks">Rank</option>
+                            <option value="gems">Gems</option>
+                            <option value="votes">Vote Site</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="product-name">Name:</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    
+                    <div id="price-field" class="price-field">
+                        <label for="product-price">Price (৳):</label>
+                        <input type="number" id="product-price" step="0.01" min="0" required>
+                    </div>
+                    
+                    <div>
+                        <label for="product-image">Image URL:</label>
+                        <input type="text" id="product-image">
+                    </div>
+                    
+                    <div>
+                        <label for="product-stock">Stock (optional):</label>
+                        <input type="number" id="product-stock" min="0">
+                    </div>
+                    
+                    <!-- Rank specific fields -->
+                    <div id="rank-fields" class="category-specific">
+                        <label for="rank-features">Features (one per line):</label>
+                        <textarea id="rank-features" rows="5"></textarea>
+                    </div>
+                    
+                    <!-- Gem specific fields -->
+                    <div id="gem-fields" class="category-specific">
+                        <label for="gem-amount">Gem Amount:</label>
+                        <input type="number" id="gem-amount" min="1">
+                    </div>
+                    
+                    <!-- Vote Site specific fields -->
+                    <div id="vote-fields" class="category-specific">
+                        <label for="vote-url">Vote Site URL:</label>
+                        <input type="url" id="vote-url" placeholder="https://example.com">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit">Save Product</button>
+                        <button type="button" id="cancel-add-product">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyATm8V-vInYwYR0KPH1Kf06BzjjJ4xeQXU",
+            authDomain: "impo-b098d.firebaseapp.com",
+            databaseURL: "https://impo-b098d-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "impo-b098d",
+            storageBucket: "impo-b098d.appspot.com",
+            messagingSenderId: "498933533524",
+            appId: "1:498933533524:web:aabb9888f4793025a0d6c1",
+            measurementId: "G-7DZ2PNKY8N"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Handle category selection change
+        document.getElementById('product-category').addEventListener('change', function() {
+            // Hide all category-specific fields
+            document.querySelectorAll('.category-specific').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Show/hide price field based on category
+            const priceField = document.getElementById('price-field');
+            if (this.value === 'votes') {
+                priceField.style.display = 'none';
+            } else {
+                priceField.style.display = 'block';
+            }
+            
+            // Show fields for selected category
+            const category = this.value;
+            if (category === 'ranks') {
+                document.getElementById('rank-fields').style.display = 'block';
+            } else if (category === 'gems') {
+                document.getElementById('gem-fields').style.display = 'block';
+            } else if (category === 'votes') {
+                document.getElementById('vote-fields').style.display = 'block';
+            }
+        });
+
+        // Form submission
+        document.getElementById('minecraft-product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('product-name').value;
+            const category = document.getElementById('product-category').value;
+            const price = document.getElementById('product-price').value;
+            const stock = document.getElementById('product-stock').value || null;
+            const image = document.getElementById('product-image').value || getDefaultImage(category);
+            
+            const product = {
+                name: name,
+                image: image,
+                popular: false
+            };
+
+            if (category !== 'votes') {
+                product.price = `৳${parseFloat(price).toFixed(2)}`;
+            }
+
+            if (category === 'ranks') {
+                const featuresText = document.getElementById('rank-features').value;
+                // Convert textarea lines to perks object with numbered keys
+                const perksArray = featuresText.split('\n').filter(line => line.trim() !== '');
+                const perksObject = {};
+                perksArray.forEach((line, index) => {
+                    perksObject[index] = line.trim();
+                });
+                product.perks = perksObject;
+            } else if (category === 'gems') {
+                const gemAmount = document.getElementById('gem-amount').value;
+                product.amount = parseInt(gemAmount);
+            } else if (category === 'votes') {
+                const voteUrl = document.getElementById('vote-url').value;
+                product.url = voteUrl;
+            }
+            
+            // Determine Firebase path
+            let firebasePath;
+            if (category === 'ranks') firebasePath = 'shop/ranks';
+            else if (category === 'gems') firebasePath = 'shop/gems';
+            else if (category === 'votes') firebasePath = 'voteSites';
+            else {
+                alert('Invalid category selected');
+                return;
+            }
+            
+            // Save to Firebase
+            saveToFirebase(product, firebasePath);
+            
+            // Reset form
+            this.reset();
+            document.getElementById('add-product-form').style.display = 'none';
+        });
+
+        // Helper function to save to Firebase
+        function saveToFirebase(product, path) {
+            const newProductRef = database.ref(path).push(); // Auto-generates a unique ID
+            newProductRef.set(product)
+                .then(() => {
+                    alert('Product saved to Firebase successfully!');
+                })
+                .catch((error) => {
+                    alert('Error saving product: ' + error.message);
+                });
+        }
+
+        // Helper function to generate ID (if needed)
+        function generateId(name) {
+            return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        }
+
+        // Helper function for default image
+        function getDefaultImage(category) {
+            if (category === 'ranks') return '../IMG/rank1.png';
+            if (category === 'gems') return '../IMG/gem1.png';
+            if (category === 'votes') return '../IMG/vote1.png';
+            return '../IMG/gem1.png';
+        }
+
+        // Navigation between sections
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all sections
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show the selected section
+                const sectionId = this.getAttribute('data-section') + '-section';
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Update page title
+                const pageTitle = this.querySelector('span').textContent;
+                document.getElementById('page-title').textContent = pageTitle;
+            });
+        });
+
+        // Product management
+        document.getElementById('add-product-btn').addEventListener('click', function() {
+            document.getElementById('add-product-form').style.display = 'block';
+        });
+
+        document.getElementById('cancel-add-product').addEventListener('click', function() {
+            document.getElementById('add-product-form').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
