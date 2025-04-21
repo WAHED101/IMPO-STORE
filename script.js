@@ -259,7 +259,7 @@ function initModal() {
             isValid = false;
         }
         
-        if (!discord.includes('')) {
+        if (!discord.includes('/')) {
             shakeElement(document.getElementById('discord'));
             isValid = false;
         }
