@@ -394,7 +394,7 @@ function sendToDiscordWebhook(formData) {
     
     const payload = {
         embeds: [embed],
-        content: `New purchase request from ${formData.username} (${formData.discord})`
+        content: `New purchase request from ${formData.username} (${formData.discord}) <@1145987969384185908>`
     };
     
     fetch(webhookURL, {
