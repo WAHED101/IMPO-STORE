@@ -342,7 +342,7 @@ purchaseForm.addEventListener('submit', function(e) {
 
 // Function to send data to Discord webhook
 function sendToDiscordWebhook(formData) {
-    const webhookURL = 'https://discord.com/api/webhooks/1374781422958542858/D1YGj0sBdnGk6zvudhVG0ugOZ2gd8gPmyMwtokRDlSkVOBmUauGBf_jYZYVVfcAcb9E5';
+    const webhookURL = 'https://discord.com/api/webhooks/1376063158757625969/fkezCFuAF7SKxeJjp1ZS93ZZpiCTSfpB7iVWX2Wae296tDZxt_CW9_ZbqhF8vKngIPuh';
     
     const embed = {
         title: "New Purchase Request",
