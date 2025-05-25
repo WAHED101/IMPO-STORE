@@ -242,6 +242,50 @@ function saveVoteSite(name, imageUrl, url, productId = null) {
     return Promise.reject(error);
   }
 }
+// Function to save Rank products
+function saveRankProduct(name, image, price, popular, description, perks, productId = null) {
+  console.log('saveRankProduct called with:', { name, image, price, popular, description, perks, productId });
+
+  if (!name || !price) {
+    showNotification('Name and Price are required for ranks', 'error');
+    return Promise.reject(new Error('Name and Price are required'));
+  }
+
+  const rankProduct = {
+    name: name,
+    image: image || getDefaultImage('ranks'),
+    price: typeof price === 'string' ? price : `৳${parseFloat(price).toFixed(2)}`,
+    popular: popular || false,
+    description: description || '',
+    perks: perks || []
+  };
+
+  console.log('Rank product data to save:', rankProduct);
+  const path = 'shop/ranks';
+  return saveToFirebase(rankProduct, path, productId);
+}
+
+// Function to save Gem products
+function saveGemProduct(name, image, price, popular, amount, productId = null) {
+  console.log('saveGemProduct called with:', { name, image, price, popular, amount, productId });
+
+  if (!name || !price || !amount) {
+    showNotification('Name, Price, and Amount are required for gems', 'error');
+    return Promise.reject(new Error('Name, Price, and Amount are required'));
+  }
+
+  const gemProduct = {
+    name: name,
+    image: image || getDefaultImage('gems'),
+    price: typeof price === 'string' ? price : `৳${parseFloat(price).toFixed(2)}`,
+    popular: popular || false,
+    amount: parseInt(amount)
+  };
+
+  console.log('Gem product data to save:', gemProduct);
+  const path = 'shop/gems';
+  return saveToFirebase(gemProduct, path, productId);
+}
 
 // Update the modal form submission handler to use the specialized functions
 addSafeEventListener(productForm, 'submit', function(e) {
